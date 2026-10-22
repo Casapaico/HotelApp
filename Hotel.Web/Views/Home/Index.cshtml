@@ -1,0 +1,29 @@
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<h1 class="mb-4">Hotel</h1>
+
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card h-100"><div class="card-body">
+            <h2 class="h5">Habitaciones</h2>
+            <p class="text-muted">Registro, edición y baja lógica de habitaciones por tipo.</p>
+            <a class="btn btn-outline-primary" asp-controller="Habitaciones" asp-action="Index">Ver habitaciones</a>
+        </div></div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100"><div class="card-body">
+            <h2 class="h5">Disponibilidad</h2>
+            <p class="text-muted">Habitaciones libres para un rango de fechas, con noches y total estimado.</p>
+            <a class="btn btn-outline-primary" asp-controller="Reservas" asp-action="Disponibles">Consultar</a>
+        </div></div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100"><div class="card-body">
+            <h2 class="h5">Reservas</h2>
+            <p class="text-muted">Listado de reservas, registro de nuevas y cancelación.</p>
+            <a class="btn btn-outline-primary" asp-controller="Reservas" asp-action="Index">Ver reservas</a>
+        </div></div>
+    </div>
+</div>

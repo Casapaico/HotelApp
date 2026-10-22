@@ -1,0 +1,39 @@
+@model Reserva
+@{
+    ViewData["Title"] = "Nueva reserva";
+}
+
+<h1>Nueva reserva</h1>
+
+<form asp-action="Create" class="col-md-6">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="IdHuesped" class="form-label">Huésped</label>
+        <select asp-for="IdHuesped" asp-items="ViewBag.Huespedes" class="form-select">
+            <option value="0">-- Seleccione un huésped --</option>
+        </select>
+        <span asp-validation-for="IdHuesped" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="IdHabitacion" class="form-label">Habitación</label>
+        <select asp-for="IdHabitacion" asp-items="ViewBag.Habitaciones" class="form-select">
+            <option value="0">-- Seleccione una habitación --</option>
+        </select>
+        <span asp-validation-for="IdHabitacion" class="text-danger"></span>
+    </div>
+    <div class="row">
+        <div class="col-6 mb-3">
+            <label asp-for="FechaIngreso" class="form-label">Fecha de ingreso</label>
+            <input asp-for="FechaIngreso" type="date" class="form-control" />
+            <span asp-validation-for="FechaIngreso" class="text-danger"></span>
+        </div>
+        <div class="col-6 mb-3">
+            <label asp-for="FechaSalida" class="form-label">Fecha de salida</label>
+            <input asp-for="FechaSalida" type="date" class="form-control" />
+            <span asp-validation-for="FechaSalida" class="text-danger"></span>
+        </div>
+    </div>
+    <p class="text-muted small">La reserva se registra con estado <strong>Pendiente</strong>.</p>
+    <button class="btn btn-primary">Guardar</button>
+    <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>
+</form>

@@ -1,0 +1,73 @@
+@model IEnumerable<Habitacion>
+@{
+    ViewData["Title"] = "Disponibilidad";
+    var ingreso = (DateOnly)ViewBag.Ingreso;
+    var salida = (DateOnly)ViewBag.Salida;
+    var noches = (int)ViewBag.Noches;
+}
+
+<h1>Disponibilidad</h1>
+
+<form asp-action="Disponibles" method="get" class="row g-2 align-items-end mb-3">
+    <div class="col-sm-6 col-md-3">
+        <label for="ingreso" class="form-label">Ingreso</label>
+        <input type="date" id="ingreso" name="ingreso" value="@ingreso.ToString("yyyy-MM-dd")" class="form-control" />
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <label for="salida" class="form-label">Salida</label>
+        <input type="date" id="salida" name="salida" value="@salida.ToString("yyyy-MM-dd")" class="form-control" />
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-outline-primary">Buscar</button>
+    </div>
+</form>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+@if (ViewData.ModelState.IsValid)
+{
+    <p class="text-muted">
+        Del @ingreso.ToString("dd/MM/yyyy") al @salida.ToString("dd/MM/yyyy"):
+        <strong>@noches noche(s)</strong>, @Model.Count() habitación(es) libre(s).
+    </p>
+
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Número</th>
+                <th>Piso</th>
+                <th>Tipo</th>
+                <th class="text-center">Capacidad</th>
+                <th class="text-end">Precio por noche</th>
+                <th class="text-center">Noches</th>
+                <th class="text-end">Total estimado</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var h in Model)
+            {
+                <tr>
+                    <td>@h.Numero</td>
+                    <td>@h.Piso</td>
+                    <td>@h.IdTipoHabitacionNavigation.Nombre</td>
+                    <td class="text-center">@h.IdTipoHabitacionNavigation.Capacidad</td>
+                    <td class="text-end">@h.IdTipoHabitacionNavigation.PrecioNoche.ToString("C")</td>
+                    <td class="text-center">@noches</td>
+                    <td class="text-end fw-semibold">@((h.IdTipoHabitacionNavigation.PrecioNoche * noches).ToString("C"))</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-primary" asp-action="Create"
+                           asp-route-idHabitacion="@h.IdHabitacion"
+                           asp-route-ingreso="@ingreso.ToString("yyyy-MM-dd")"
+                           asp-route-salida="@salida.ToString("yyyy-MM-dd")">Reservar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (!Model.Any())
+    {
+        <p class="text-muted">No hay habitaciones libres en ese rango.</p>
+    }
+}

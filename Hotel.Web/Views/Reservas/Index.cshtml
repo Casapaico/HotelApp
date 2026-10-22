@@ -1,0 +1,75 @@
+@model IEnumerable<Reserva>
+@{
+    ViewData["Title"] = "Reservas";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Reservas</h1>
+    <a class="btn btn-primary" asp-action="Create">Nueva reserva</a>
+</div>
+
+<form asp-action="Index" method="get" class="row g-2 mb-3">
+    <div class="col-sm-6 col-md-3">
+        <select name="estado" class="form-select" asp-items="ViewBag.Estados">
+            <option value="">Todos los estados</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-outline-primary">Filtrar</button>
+        <a class="btn btn-outline-secondary" asp-action="Index">Limpiar</a>
+    </div>
+</form>
+
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>N.°</th>
+            <th>Huésped</th>
+            <th>Habitación</th>
+            <th>Ingreso</th>
+            <th>Salida</th>
+            <th class="text-center">Noches</th>
+            <th>Estado</th>
+            <th class="text-end">Total</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model)
+        {
+            var noches = r.FechaSalida.DayNumber - r.FechaIngreso.DayNumber;
+            var tipo = r.IdHabitacionNavigation.IdTipoHabitacionNavigation;
+            var color = r.Estado switch
+            {
+                "Pendiente" => "bg-warning text-dark",
+                "Confirmada" => "bg-success",
+                "Cancelada" => "bg-secondary",
+                _ => "bg-info text-dark"
+            };
+            <tr>
+                <td>@r.IdReserva</td>
+                <td>@r.IdHuespedNavigation.Apellidos, @r.IdHuespedNavigation.Nombres</td>
+                <td>@r.IdHabitacionNavigation.Numero <span class="text-muted">(@tipo.Nombre)</span></td>
+                <td>@r.FechaIngreso.ToString("dd/MM/yyyy")</td>
+                <td>@r.FechaSalida.ToString("dd/MM/yyyy")</td>
+                <td class="text-center">@noches</td>
+                <td><span class="badge @color">@r.Estado</span></td>
+                <td class="text-end">@((tipo.PrecioNoche * noches).ToString("C"))</td>
+                <td class="text-end">
+                    @if (r.Estado == "Pendiente" || r.Estado == "Confirmada")
+                    {
+                        <form asp-action="Cancelar" asp-route-id="@r.IdReserva" class="d-inline"
+                              onsubmit="return confirm('¿Cancelar la reserva N.° @r.IdReserva?');">
+                            <button class="btn btn-sm btn-outline-danger">Cancelar</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">No se encontraron reservas.</p>
+}

@@ -1,0 +1,23 @@
+@model Habitacion
+@{
+    ViewData["Title"] = "Eliminar habitación";
+    var vigentes = (int)ViewBag.ReservasVigentes;
+}
+
+<h1>Eliminar habitación</h1>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<p>¿Desea eliminar la habitación <strong>@Model.Numero</strong> (@Model.IdTipoHabitacionNavigation.Nombre, piso @Model.Piso)?</p>
+
+@if (vigentes > 0)
+{
+    <div class="alert alert-warning">
+        La habitación tiene <strong>@vigentes</strong> reserva(s) pendiente(s) o confirmada(s).
+    </div>
+}
+
+<form asp-action="Delete" asp-route-id="@Model.IdHabitacion">
+    <button class="btn btn-danger">Eliminar</button>
+    <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>
+</form>

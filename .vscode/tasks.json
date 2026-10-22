@@ -1,0 +1,31 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["build", "${workspaceFolder}/Hotel.Web/Hotel.Web.csproj"],
+      "problemMatcher": "$msCompile",
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "BD: cargar HotelDB",
+      "type": "shell",
+      "command": "./scripts/cargar-bd.sh",
+      "problemMatcher": []
+    },
+    {
+      "label": "BD: ejecutar AgregarObservaciones.sql",
+      "type": "shell",
+      "command": "./scripts/cargar-bd.sh AgregarObservaciones.sql",
+      "problemMatcher": []
+    },
+    {
+      "label": "Scaffold: regenerar Models",
+      "type": "shell",
+      "command": "./scripts/scaffold.sh",
+      "problemMatcher": []
+    }
+  ]
+}

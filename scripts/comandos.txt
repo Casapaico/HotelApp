@@ -1,0 +1,17 @@
+cd Hotel.Web
+
+dotnet tool install --global dotnet-ef
+
+dotnet ef dbcontext scaffold "Server=localhost,1433;Database=HotelDB;User Id=sa;Password=TU_PASSWORD;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models --context HotelContext --no-onconfiguring --force
+
+
+NOTAS
+────────────────────────────────────────────────────────────────────────────
+- NO borrar la carpeta Models antes de regenerar: Program.cs y los repositorios
+  usan HotelContext, Habitacion, Reserva... y el scaffold fallaría al compilar.
+  Con --force los archivos se sobrescriben solos.
+- Linux con .NET instalado por snap: si "dotnet ef" no se encuentra, agregar a ~/.bashrc
+    export DOTNET_ROOT=/var/snap/dotnet/common/dotnet
+    export PATH="$PATH:$HOME/.dotnet/tools"
+- Un campo nuevo (Reserva.Observaciones) aparece en Models/, pero hay que agregarlo
+  a mano en el [Bind] del controlador y en el formulario Create.cshtml.
