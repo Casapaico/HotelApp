@@ -19,6 +19,8 @@ public partial class Reserva
 
     public DateTime FechaRegistro { get; set; }
 
+    public string? Observaciones { get; set; }
+
     public virtual Habitacion IdHabitacionNavigation { get; set; } = null!;
 
     public virtual Huesped IdHuespedNavigation { get; set; } = null!;

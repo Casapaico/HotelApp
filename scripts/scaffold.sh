@@ -10,6 +10,12 @@ cd "$(dirname "$0")/.."
 
 cd Hotel.Web
 
+# .NET instalado por snap: la herramienta global necesita DOTNET_ROOT y ~/.dotnet/tools en el PATH
+if [ -d /var/snap/dotnet/common/dotnet ]; then
+  export DOTNET_ROOT="${DOTNET_ROOT:-/var/snap/dotnet/common/dotnet}"
+fi
+export PATH="$PATH:$HOME/.dotnet/tools"
+
 dotnet ef dbcontext scaffold \
   "Server=localhost,1433;Database=HotelDB;User Id=sa;Password=$SA_PASSWORD;TrustServerCertificate=True" \
   Microsoft.EntityFrameworkCore.SqlServer \

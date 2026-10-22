@@ -33,6 +33,12 @@
             <span asp-validation-for="FechaSalida" class="text-danger"></span>
         </div>
     </div>
+    <div class="mb-3">
+        <label asp-for="Observaciones" class="form-label">Observaciones</label>
+        <textarea asp-for="Observaciones" class="form-control" rows="3" maxlength="200"
+                  placeholder="Ej.: llegada tarde, cama adicional, piso alto..."></textarea>
+        <span asp-validation-for="Observaciones" class="text-danger"></span>
+    </div>
     <p class="text-muted small">La reserva se registra con estado <strong>Pendiente</strong>.</p>
     <button class="btn btn-primary">Guardar</button>
     <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>

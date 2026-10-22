@@ -61,7 +61,7 @@ public class ReservasController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("IdHuesped,IdHabitacion,FechaIngreso,FechaSalida")] Reserva reserva)
+    public async Task<IActionResult> Create([Bind("IdHuesped,IdHabitacion,FechaIngreso,FechaSalida,Observaciones")] Reserva reserva)
     {
         // Estado y navegaciones no vienen del formulario: se quitan de la validación
         ModelState.Remove(nameof(Reserva.Estado));
@@ -120,6 +120,9 @@ public class ReservasController : Controller
             ModelState.AddModelError(nameof(Reserva.FechaSalida), "La fecha de salida debe ser posterior a la de ingreso.");
             fechasValidas = false;
         }
+
+        if (reserva.Observaciones?.Length > 200)
+            ModelState.AddModelError(nameof(Reserva.Observaciones), "Las observaciones no pueden superar los 200 caracteres.");
 
         // Solo tiene sentido buscar cruces si la habitación y el rango son válidos
         if (habitacionValida && fechasValidas

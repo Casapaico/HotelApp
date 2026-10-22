@@ -71,6 +71,7 @@ public partial class HotelContext : DbContext
             entity.Property(e => e.FechaRegistro)
                 .HasPrecision(0)
                 .HasDefaultValueSql("(sysdatetime())", "DF_Reserva_FechaRegistro");
+            entity.Property(e => e.Observaciones).HasMaxLength(200);
 
             entity.HasOne(d => d.IdHabitacionNavigation).WithMany(p => p.Reservas)
                 .HasForeignKey(d => d.IdHabitacion)
